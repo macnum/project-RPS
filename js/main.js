@@ -1,89 +1,112 @@
 const objectsArr = ['rock', 'paper', 'scissors'];
-const arrOfHumanChoice = [];
-const arrOfComputerChoice = [];
 let humanScore = 0;
 let computerScore = 0;
-
+let count = 0;
+const userSelect = document.querySelectorAll('.choice-container .img-choice')
 const user = document.querySelector('.human-choice span');
 const computer = document.querySelector('.computer-choice span');
-const userScore = document.querySelector('.human-score')
-const compScore = document.querySelector('.computer-score')
 const output = document.querySelector('.output');
-const humanChoiceArr = document.querySelector('.human-choice-array');
-const computerChoiceArr = document.querySelector('.computer-choice-array')
+const startGame = document.querySelector('.start');
+const container = document.querySelector('.game .container')
+const counter = document.querySelector('.counter')
+const winnerTrophy = document.querySelector('.hidden.win');
+const loserTrophy = document.querySelector('.hidden.lose');
+const stalemate = document.querySelector('.hidden.draw');
+
+
 
 
 const getRandomNumber = () => Math.floor(Math.random() * objectsArr.length);
 
+container.style.display = "none";
+
+
+startGame.addEventListener('click',()=> {
+    container.style.display = 'block'
+    startGame.style.display = 'none'
+})
 // computer()
 const getComputerChoice = () => objectsArr[getRandomNumber()];
 
 
-
-// user() 
-const getHumanChoice = () => {
-    let userChoice = prompt(`Enter an input btw ${objectsArr[0]}, ${objectsArr[1]}or ${objectsArr[2]}`).toLowerCase();
-
-    return userChoice;
-};
-
-
-
-//play()
-function playRound(humanChoice, computerChoice) {
-    arrOfComputerChoice.push(computerChoice);
-    arrOfHumanChoice.push(humanChoice);
-    const checkChoice = (humanChoice, computerChoice) => {
-
-        if( (humanChoice === 'rock' && computerChoice === 'paper') || 
-        (humanChoice === 'paper' && computerChoice === 'scissors') || 
-        (humanChoice === 'scissors' && computerChoice === 'rock' ) ) {
-            compScore.textContent = ++computerScore;
-                return  'You lose! Computer beats you'
+let userChoice;
+userSelect.forEach(item =>  {
+    item.addEventListener('click', (e) => {
+        userChoice = (e.target.id)
+        
+        function playRound(humanChoice, computerChoice) {
+            const checkChoice = (humanChoice, computerChoice) => {
+        
+                if( (humanChoice === 'rock' && computerChoice === 'paper') || 
+                (humanChoice === 'paper' && computerChoice === 'scissors') || 
+                (humanChoice === 'scissors' && computerChoice === 'rock' ) ) {
+                    ++computerScore;
+                    counter.textContent = ++count;
+                        return  'You lose! Computer beats you'
+                }
+                else if(  
+                    (humanChoice === 'rock' && computerChoice === 'scissors' ) || 
+                    (humanChoice === 'paper' && computerChoice === 'rock' ) || 
+                    (humanChoice === 'scissors' && computerChoice === 'paper' )  ) {
+                        ++humanScore;
+                        counter.textContent = ++count;
+                        return 'You win! human beats computer'
+                }
+                else if(humanChoice === computerChoice ) {
+                    counter.textContent = ++count;
+                    return 'Draw'
+                }
+        
+        
+            }
+            
+            user.textContent = ` ${humanChoice}`;
+            computer.textContent = ` ${computerChoice}`;
+            output.textContent = checkChoice(humanChoice, computerChoice);
+        
         }
-        else if(  
-            (humanChoice === 'rock' && computerChoice === 'scissors' ) || 
-            (humanChoice === 'paper' && computerChoice === 'rock' ) || 
-            (humanChoice === 'scissors' && computerChoice === 'paper' )  ) {
-                userScore.textContent = ++humanScore;
-                return 'You win! human beats computer'
+        const humanSelection = userChoice;
+        const computerSelection = getComputerChoice;
+        function playGame() {
+            playRound(humanSelection, computerSelection());
+            
+            if(count <= 5) {
+                console.log(humanScore,'human');
+                console.log(computerScore,'computer')
+                if(count == 5)  {
+                    let result = (humanScore > computerScore) ? winnerTrophy.classList.remove('hidden') : (computerScore > humanScore) ? loserTrophy.classList.remove('hidden'): stalemate.classList.remove('hidden');
+                    count = 0;
+                    computerScore = 0;
+                    humanScore = 0;
+                    counter.textContent = count;
+                    startGame.style.display ='block'
+                    container.style.display = 'none'
+                    output.textContent = '❗️❗️'
+                    
+                }
+                else {
+                    startGame.style.display ='none'
+                    winnerTrophy.classList.add('hidden');
+                    loserTrophy.classList.add('hidden')
+                    stalemate.classList.add('hidden')
+                }
+                
+            }
         }
-        else if(humanChoice === computerChoice ) {
-            return 'Draw'
-        }
-        else {
-            return 'Invalid "USER" Choice'
-        }
-
-
-    }
-    
-    user.textContent = ` ${humanChoice}`;
-    computer.textContent = ` ${computerChoice}`;
-    output.textContent = checkChoice(humanChoice, computerChoice);
-
-}
-
-
-const humanSelection = getHumanChoice;
-const computerSelection = getComputerChoice;
+        playGame()
+    })
+})
 
 
 
 
-function playGame() {
-    for (var i = 0; i < 5; i++) {
-        playRound(humanSelection(), computerSelection());
-    }
-    
-    const checkResult = () => {
-        return humanScore > computerScore ? 'user win': humanScore < computerScore ? 'computer wins' : "A tie";
-    }
-    output.textContent = checkResult();
-    computerChoiceArr.textContent = arrOfComputerChoice;
-    humanChoiceArr.textContent = arrOfHumanChoice;
-}
-playGame()
+
+
+
+
+
+
+
 
 
 
