@@ -4,26 +4,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="./styles/style.css">
     <script src="./js/main.js" defer></script>
 </head>
 <body>
-    <div class="container">
-        <div class="score-container">
-            <div>Human Score: 
-                <span class="human-score">0</span></div>
-            <div>Computer Score:
-                <span class="computer-score">0</span></div>
-        </div>
+    <div class="game-container">
         <div class="game">
-            <div class="human-choice">Human:<span></span></div>
-            <div class="computer-choice">Computer:<span></span></div>
+            <button class="start">Start</button>
+    
+            <div class="container">
+                <div class="score-container">
+                    <div>Counter Score: <span class="counter">0</span></div>
+                </div>
+                <div class="choice-container">
+                    <div class="human-choice">Human:<span></span></div>
+                    <div class="computer-choice">Computer:<span></span></div>
+                </div>
+                <div class="choice-container">
+                    <img width="50px" src="./images/fist.png"       class="img-choice" id="rock">        
+                    <img width="50px" src="./images/hand-paper.png" class="img-choice" id="paper">
+                    <img width="50px" src="./images/scissors.png"   class="img-choice" id="scissors">
+                </div>
+                <div class="output">❗️❗️</div>
+            </div>
+            
         </div>
-        <div class="output">❗️❗️</div>
-        <div class="result"></div>
-    </div>
-    <div class="compare-container">
-        <div>Human choice list: <span class="human-choice-array"></span></div>
-        <div>Computer choice list: <span class="computer-choice-array"></span></div>
+        <div class="hero-section">
+            <ul>
+                <li><img width="150px" class="hidden win" src="./images/trophy.png" alt="a trophy for a winner"></li>
+                <li><img width="150px" class="hidden lose" src="./images/lose.png" alt="A lose"></li>
+                <li><img width="150px" class="hidden draw" src="./images/cat.png" alt="A cat"></li>
+            </ul>
+            <div class="champion"></div>
+        </div>
     </div>
 </body>
 </html>
